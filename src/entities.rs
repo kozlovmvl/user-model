@@ -1,6 +1,9 @@
 use crate::{
     core::{Error, FieldControl, Validator},
-    validators::{UsernameLengthValidator, UsernameSymbolValidator},
+    validators::{
+        EmailStructureValidator, EmailSymbolValidator, UsernameLengthValidator,
+        UsernameSymbolValidator,
+    },
 };
 use uuid::Uuid;
 
@@ -85,6 +88,13 @@ impl FieldControl<String> for Email {
     }
 
     fn validate(&mut self) -> Result<&mut Self, Error> {
+        if self.value.is_none() {
+            return Ok(self);
+        }
+        let validator = EmailSymbolValidator::new();
+        validator.validate(self.value.as_ref().unwrap())?;
+        let validator = EmailStructureValidator::new();
+        validator.validate(self.value.as_ref().unwrap())?;
         Ok(self)
     }
 }
