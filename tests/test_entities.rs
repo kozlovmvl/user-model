@@ -1,4 +1,4 @@
-use users::{core::FieldControl, entities::User};
+use usermodel::{core::FieldControl, entities::User};
 
 #[test]
 fn new_user() {
